@@ -1,23 +1,33 @@
 package ir.ac.kntu.db;
 
+import ir.ac.kntu.model.User;
 import ir.ac.kntu.model.course.Course;
 import ir.ac.kntu.util.ScannerWrapper;
 
+import java.io.*;
 import java.util.ArrayList;
 
 public class CourseDB {
-    private final ArrayList<Course> courses;
+    private ArrayList<Course> courses;
 
-    public CourseDB(ArrayList<Course> courses) {
-        this.courses = courses;
+    public CourseDB() {
+        loadCoursesInfo();
     }
 
     public boolean addCourse(Course course) {
-        return courses.add(course);
+        if (courses.add(course)) {
+            saveCoursesInfo();
+            return true;
+        }
+        return false;
     }
 
     public boolean removeCourse(Course course) {
-        return courses.remove(course);
+        if (courses.remove(course)) {
+            saveCoursesInfo();
+            return true;
+        }
+        return false;
     }
 
     public boolean containsCourse(Course course) {
@@ -60,7 +70,6 @@ public class CourseDB {
         return course;
     }
 
-
     public Course searchCourseByLecturer() {
         String lecturer = ScannerWrapper.getInstance().readString("Enter course lecturer name: ");
 
@@ -100,5 +109,46 @@ public class CourseDB {
 
     public Course getCourseByID(String id) {
         return courses.stream().filter(course -> course.getId().equals(id)).findFirst().orElse(null);
+    }
+
+    private void loadCoursesInfo() {
+        ArrayList<Course> courses = new ArrayList<>();
+        File file = new File("courses.info");
+        try (FileInputStream fileInputStream = new FileInputStream(file);
+             ObjectInputStream inputStream = new ObjectInputStream(fileInputStream)) {
+            while (true) {
+                try {
+                    Course course = (Course) inputStream.readObject();
+                    courses.add(course);
+                } catch (EOFException e) {
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Problem with some of the records in the courses data file");
+                    System.out.println(e.getMessage());
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("No previous data for courses has been saved.");
+        }
+
+        this.courses = courses;
+    }
+
+    public void saveCoursesInfo() {
+        File file = new File("courses.info");
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file);
+             ObjectOutputStream outputStream = new ObjectOutputStream(fileOutputStream)) {
+            for (Course course : courses) {
+                try {
+                    outputStream.writeObject(course);
+                } catch (IOException e) {
+                    System.out.println("(CourseDB::saveCoursesInfo): An error occurred while trying to save info");
+                    System.out.println(e.getMessage());
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("(CourseDB::saveCoursesInfo): An error occurred while trying to save info");
+            System.out.println(e.getMessage());
+        }
     }
 }

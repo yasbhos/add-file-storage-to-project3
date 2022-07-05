@@ -3,7 +3,9 @@ package ir.ac.kntu.model.question;
 import ir.ac.kntu.model.DateTime;
 import ir.ac.kntu.util.DateTimeUtility;
 
-public class Answer {
+import java.io.Serializable;
+
+public class Answer implements Serializable {
     private final String senderUsername;
 
     private final DateTime sentDateTime;
@@ -15,6 +17,9 @@ public class Answer {
     private double score;
 
     private double scoreWithDelay;
+
+    @java.io.Serial
+    private static final long serialVersionUID = 345L;
 
     public Answer(String senderUsername, Question question, String answer) {
         this.senderUsername = senderUsername;

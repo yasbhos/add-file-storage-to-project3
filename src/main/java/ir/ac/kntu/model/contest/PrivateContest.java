@@ -8,10 +8,11 @@ import ir.ac.kntu.model.question.ShortAnswerQuestion;
 import ir.ac.kntu.util.DateTimeUtility;
 import ir.ac.kntu.util.ExportAsHTML;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class PrivateContest extends Contest implements Observer {
+public class PrivateContest extends Contest implements Observer, Serializable {
     private static final int MAXIMUM_PARTICIPANTS = 20;
 
     private final ArrayList<User> whosCanParticipant;
@@ -19,6 +20,9 @@ public class PrivateContest extends Contest implements Observer {
     private final ArrayList<User> participants;
 
     private final ArrayList<SingleResponder> responders;
+
+    @java.io.Serial
+    private static final long serialVersionUID = 229L;
 
     public PrivateContest(User ownerAdmin, String name, DateTime startDateTime,
                           DateTime endDateTime, ArrayList<Question> questions) {

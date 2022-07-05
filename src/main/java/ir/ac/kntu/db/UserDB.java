@@ -3,23 +3,31 @@ package ir.ac.kntu.db;
 import ir.ac.kntu.model.User;
 import ir.ac.kntu.util.Cipher;
 import ir.ac.kntu.util.ScannerWrapper;
-import org.jetbrains.annotations.Nullable;
 
+import java.io.*;
 import java.util.ArrayList;
 
 public class UserDB {
-    private final ArrayList<User> users;
+    private ArrayList<User> users;
 
-    public UserDB(ArrayList<User> users) {
-        this.users = users;
+    public UserDB() {
+        loadUsersInfo();
     }
 
     public boolean addUser(User user) {
-        return users.add(user);
+        if (users.add(user)) {
+            saveUsersInfo();
+            return true;
+        }
+        return false;
     }
 
     public boolean removeUser(User user) {
-        return users.remove(user);
+        if (users.remove(user)) {
+            saveUsersInfo();
+            return true;
+        }
+        return false;
     }
 
     public User getUser() {
@@ -81,5 +89,46 @@ public class UserDB {
 
     public boolean isUsernameUnique(String username) {
         return getUserByUsername(username) == null;
+    }
+
+    private void loadUsersInfo() {
+        ArrayList<User> users = new ArrayList<>();
+        File file = new File("users.info");
+        try (FileInputStream fileInputStream = new FileInputStream(file);
+             ObjectInputStream inputStream = new ObjectInputStream(fileInputStream)) {
+            while (true) {
+                try {
+                    User user = (User) inputStream.readObject();
+                    users.add(user);
+                } catch (EOFException e) {
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Problem with some of the records in the users data file");
+                    System.out.println(e.getMessage());
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("No previous data for users has been saved.");
+        }
+
+        this.users = users;
+    }
+
+    public void saveUsersInfo() {
+        File file = new File("users.info");
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file);
+             ObjectOutputStream outputStream = new ObjectOutputStream(fileOutputStream)) {
+            for (User user : users) {
+                try {
+                    outputStream.writeObject(user);
+                } catch (IOException e) {
+                    System.out.println("(UserDB::saveUsersInfo): An error occurred while trying to save info");
+                    System.out.println(e.getMessage());
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("(UserDB::saveUsersInfo): An error occurred while trying to save info");
+            System.out.println(e.getMessage());
+        }
     }
 }

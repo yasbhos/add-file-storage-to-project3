@@ -87,6 +87,12 @@ public class LoginMenu implements Menu {
     }
 
     private void exit() {
+        adminDB.saveAdminsInfo();
+        userDB.saveUsersInfo();
+        courseDB.saveCoursesInfo();
+        contestDB.saveContestsInfo();
+        questionDB.saveQuestionsInfo();
+
         System.exit(0);
     }
 }

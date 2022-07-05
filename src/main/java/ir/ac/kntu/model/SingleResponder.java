@@ -1,13 +1,17 @@
 package ir.ac.kntu.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class SingleResponder implements Comparable<SingleResponder> {
+public class SingleResponder implements Comparable<SingleResponder>, Serializable {
     private final String username;
 
     private double totalScore;
 
     private DateTime averageSentDT;
+
+    @java.io.Serial
+    private static final long serialVersionUID = 100L;
 
     public SingleResponder(String username) {
         this.username = username;

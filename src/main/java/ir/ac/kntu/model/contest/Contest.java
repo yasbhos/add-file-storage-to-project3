@@ -8,10 +8,11 @@ import ir.ac.kntu.model.question.Question;
 import ir.ac.kntu.util.IdGenerator;
 import ir.ac.kntu.util.ScannerWrapper;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Contest implements Observer {
+public class Contest implements Observer, Serializable {
     private final User ownerAdmin;
 
     private final String id;
@@ -25,6 +26,9 @@ public class Contest implements Observer {
     private final ArrayList<Question> questions;
 
     private boolean automaticScoring;
+
+    @java.io.Serial
+    private static final long serialVersionUID = 385L;
 
     public Contest(User ownerAdmin, String name, DateTime startDateTime,
                    DateTime endDateTime, ArrayList<Question> questions) {

@@ -6,10 +6,11 @@ import ir.ac.kntu.util.Cipher;
 import ir.ac.kntu.util.IdGenerator;
 import ir.ac.kntu.util.ScannerWrapper;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Course {
+public class Course implements Serializable {
     public enum Status {
         OPEN_PUBLIC,
         OPEN_PRIVATE,
@@ -37,6 +38,9 @@ public class Course {
     private final ArrayList<Assignment> assignments;
 
     private final ArrayList<User> teacherAssistants;
+
+    @java.io.Serial
+    private static final long serialVersionUID = 111L;
 
     public Course(User owner, String name, String institute, DateTime startDate,
                   Status status, String password, String description) {

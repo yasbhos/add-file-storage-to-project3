@@ -8,21 +8,30 @@ import ir.ac.kntu.model.contest.SpecialContest;
 import ir.ac.kntu.util.DateTimeUtility;
 import ir.ac.kntu.util.ScannerWrapper;
 
+import java.io.*;
 import java.util.ArrayList;
 
 public class ContestDB {
-    private final ArrayList<Contest> contests;
+    private ArrayList<Contest> contests;
 
-    public ContestDB(ArrayList<Contest> contests) {
-        this.contests = contests;
+    public ContestDB() {
+        loadUContestsInfo();
     }
 
     public boolean addContest(Contest contest) {
-        return contests.add(contest);
+        if (contests.add(contest)) {
+            saveContestsInfo();
+            return true;
+        }
+        return false;
     }
 
     public boolean removeContest(Contest contest) {
-        return contests.remove(contest);
+        if (contests.remove(contest)) {
+            saveContestsInfo();
+            return true;
+        }
+        return false;
     }
 
     public boolean containsContest(Contest contest) {
@@ -122,5 +131,46 @@ public class ContestDB {
 
     public Contest getContestById(String id) {
         return contests.stream().filter(contest -> contest.getId().equals(id)).findFirst().orElse(null);
+    }
+
+    private void loadUContestsInfo() {
+        ArrayList<Contest> contests = new ArrayList<>();
+        File file = new File("contests.info");
+        try (FileInputStream fileInputStream = new FileInputStream(file);
+             ObjectInputStream inputStream = new ObjectInputStream(fileInputStream)) {
+            while (true) {
+                try {
+                    Contest contest = (Contest) inputStream.readObject();
+                    contests.add(contest);
+                } catch (EOFException e) {
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Problem with some of the records in the contests data file");
+                    System.out.println(e.getMessage());
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("No previous data for contests has been saved.");
+        }
+
+        this.contests = contests;
+    }
+
+    public void saveContestsInfo() {
+        File file = new File("contests.info");
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file);
+             ObjectOutputStream outputStream = new ObjectOutputStream(fileOutputStream)) {
+            for (Contest contest : contests) {
+                try {
+                    outputStream.writeObject(contest);
+                } catch (IOException e) {
+                    System.out.println("(ContestsDB::saveContestsInfo): An error occurred while trying to save info");
+                    System.out.println(e.getMessage());
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("(ContestsDB::saveContestsInfo): An error occurred while trying to save info");
+            System.out.println(e.getMessage());
+        }
     }
 }

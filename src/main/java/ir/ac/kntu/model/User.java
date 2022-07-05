@@ -2,9 +2,10 @@ package ir.ac.kntu.model;
 
 import ir.ac.kntu.util.Cipher;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class User {
+public class User implements Serializable {
     private boolean admin;
 
     private String firstName;
@@ -20,6 +21,9 @@ public class User {
     private String nationalCode;
 
     private double rating;
+
+    @java.io.Serial
+    private static final long serialVersionUID = 135L;
 
     public User(String firstName, String username, String password, String email, String phoneNumber, String nationalCode) {
         this.admin = false;

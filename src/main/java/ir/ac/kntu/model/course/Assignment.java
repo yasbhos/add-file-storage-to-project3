@@ -10,11 +10,12 @@ import ir.ac.kntu.model.question.ShortAnswerQuestion;
 import ir.ac.kntu.util.DateTimeUtility;
 import ir.ac.kntu.util.ScannerWrapper;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
-public class Assignment implements Observer {
+public class Assignment implements Observer, Serializable {
     public enum Status {
         ACTIVE,
         INACTIVE
@@ -41,6 +42,9 @@ public class Assignment implements Observer {
     private final ArrayList<SingleResponder> responders;
 
     private boolean automaticScoring;
+
+    @java.io.Serial
+    private static final long serialVersionUID = 268L;
 
     public Assignment(String name, String description, DateTime startDateTime, DateTime endDateTime,
                       DateTime delayDateTime, int delayCoefficient, Status assignmentStatus, Status scoreBoardStatus) {

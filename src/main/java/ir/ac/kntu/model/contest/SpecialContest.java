@@ -11,15 +11,19 @@ import ir.ac.kntu.util.DateTimeUtility;
 import ir.ac.kntu.util.ExportAsHTML;
 import ir.ac.kntu.util.ScannerWrapper;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class SpecialContest extends Contest {
+public class SpecialContest extends Contest implements Serializable {
     private static final int MAXIMUM_PARTICIPANTS = 100;
 
     private int maximumGroupsCapacity;
 
     private final ArrayList<GroupResponder> responders;
+
+    @java.io.Serial
+    private static final long serialVersionUID = 14L;
 
     public SpecialContest(User ownerAdmin, String name, DateTime startDateTime, DateTime endDateTime,
                           ArrayList<Question> questions, int maximumGroupCapacity) {

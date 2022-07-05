@@ -7,14 +7,18 @@ import ir.ac.kntu.util.DateTimeUtility;
 import ir.ac.kntu.util.IdGenerator;
 import ir.ac.kntu.util.ScannerWrapper;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Question {
-    public class Responder implements Comparable<Responder> {
+public class Question implements Serializable {
+    public class Responder implements Comparable<Responder>, Serializable {
         private final String username;
 
         private final ArrayList<Answer> sentAnswers;
+
+        @java.io.Serial
+        private static final long serialVersionUID = 423L;
 
         public Responder(String username) {
             this.username = username;
@@ -81,6 +85,9 @@ public class Question {
     private DateTime uploadDateTime;
 
     private final ArrayList<Responder> responders;
+
+    @java.io.Serial
+    private static final long serialVersionUID = 465L;
 
     public Question(String name, double score, String description, Type type, Level level) {
         this.id = IdGenerator.createID();

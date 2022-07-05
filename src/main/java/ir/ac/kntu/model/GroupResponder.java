@@ -1,9 +1,10 @@
 package ir.ac.kntu.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class GroupResponder implements Comparable<GroupResponder> {
+public class GroupResponder implements Comparable<GroupResponder>, Serializable {
     private String name;
 
     private final ArrayList<User> members;
@@ -11,6 +12,9 @@ public class GroupResponder implements Comparable<GroupResponder> {
     private double totalScore;
 
     private DateTime averageSentDT;
+
+    @java.io.Serial
+    private static final long serialVersionUID = 120L;
 
     public GroupResponder(String name, ArrayList<User> members) {
         this.name = name;

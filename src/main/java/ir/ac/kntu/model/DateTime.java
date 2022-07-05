@@ -2,7 +2,9 @@ package ir.ac.kntu.model;
 
 import ir.ac.kntu.util.DateTimeUtility;
 
-public class DateTime implements Comparable<DateTime> {
+import java.io.Serializable;
+
+public class DateTime implements Comparable<DateTime>, Serializable {
     private int year;
 
     private int month;
@@ -14,6 +16,9 @@ public class DateTime implements Comparable<DateTime> {
     private int minute;
 
     private int second;
+
+    @java.io.Serial
+    private static final long serialVersionUID = 179L;
 
     public DateTime(int year, int month, int day, int hour, int minute, int second) {
         checkAndSetDateTime(year, month, day, hour, minute, second);

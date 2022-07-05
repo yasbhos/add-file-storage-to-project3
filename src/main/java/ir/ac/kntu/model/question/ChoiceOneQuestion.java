@@ -3,8 +3,10 @@ package ir.ac.kntu.model.question;
 import ir.ac.kntu.model.User;
 import ir.ac.kntu.util.ScannerWrapper;
 
-public class ChoiceOneQuestion extends Question {
-    public class Options {
+import java.io.Serializable;
+
+public class ChoiceOneQuestion extends Question implements Serializable {
+    public class Options implements Serializable{
         private String a;
 
         private String b;
@@ -12,6 +14,9 @@ public class ChoiceOneQuestion extends Question {
         private String c;
 
         private String d;
+
+        @java.io.Serial
+        private static final long serialVersionUID = 395;
 
         public Options(String a, String b, String c, String d) {
             this.a = a;
@@ -40,6 +45,9 @@ public class ChoiceOneQuestion extends Question {
     private Options options;
 
     private String correctAnswer;
+
+    @java.io.Serial
+    private static final long serialVersionUID = 900L;
 
     public ChoiceOneQuestion(String name, double score, String description, Type type, Level level,
                              String a, String b, String c, String d, String correctAnswer) {

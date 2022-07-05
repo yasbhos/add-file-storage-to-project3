@@ -1,7 +1,12 @@
 package ir.ac.kntu.model.question;
 
-public class ShortAnswerQuestion extends Question {
+import java.io.Serializable;
+
+public class ShortAnswerQuestion extends Question implements Serializable {
     private String correctAnswer;
+
+    @java.io.Serial
+    private static final long serialVersionUID = 222L;
 
     public ShortAnswerQuestion(String name, double score, String description, Type type, Level level, String correctAnswer) {
         super(name, score, description, type, level);
