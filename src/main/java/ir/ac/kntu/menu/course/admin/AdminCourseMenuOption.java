@@ -1,0 +1,15 @@
+package ir.ac.kntu.menu.course.admin;
+
+public enum AdminCourseMenuOption {
+    EDIT_NAME,
+    EDIT_INSTITUTE,
+    EDIT_LECTURER,
+    EDIT_START_DATETIME,
+    EDIT_STATUS,
+    EDIT_PASSWORD,
+    EDIT_DESCRIPTION,
+    EDIT_LIST_OF_STUDENTS,
+    EDIT_LIST_OF_ASSIGNMENTS,
+    EDIT_LIST_OF_TEACHER_ASSISTANTS,
+    BACK
+}
